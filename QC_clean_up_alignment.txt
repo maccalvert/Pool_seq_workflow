@@ -22,37 +22,37 @@ java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -
 
 #AppleEarly 
 java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
-		AppleEarlyGr_S61_L008_R1_001.fastq.gz AppleEarlyGr_S61_L008_R2_001.fastq.gz \
-		AppleEarlyGr_S61_L008_R1_001.pairclean.fastq.gz AppleEarlyGr_S61_L008_R1_001.unpairclean.fastq.gz  \
+	AppleEarlyGr_S61_L008_R1_001.fastq.gz AppleEarlyGr_S61_L008_R2_001.fastq.gz \
+	AppleEarlyGr_S61_L008_R1_001.pairclean.fastq.gz AppleEarlyGr_S61_L008_R1_001.unpairclean.fastq.gz  \
         AppleEarlyGr_S61_L008_R2_001.pairclean.fastq.gz AppleEarlyGr_S61_L008_R2_001.unpairclean.fastq.gz \
         ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
         
 #AppleLate 
 java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
-		AppleLateGr_S62_L008_R1_001.fastq.gz AppleLateGr_S62_L008_R2_001.fastq.gz \
-		AppleLateGr_S62_L008_R1_001.pairclean.fastq.gz AppleLateGr_S62_L008_R1_001.unpairclean.fastq.gz  \
+	AppleLateGr_S62_L008_R1_001.fastq.gz AppleLateGr_S62_L008_R2_001.fastq.gz \
+	AppleLateGr_S62_L008_R1_001.pairclean.fastq.gz AppleLateGr_S62_L008_R1_001.unpairclean.fastq.gz  \
         AppleLateGr_S62_L008_R2_001.pairclean.fastq.gz AppleLateGr_S62_L008_R2_001.unpairclean.fastq.gz \
         ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
 
 #HawBase 
 java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
-		HawBaseGr_S59_L007_R1_001.fastq.gz HawBaseGr_S59_L007_R2_001.fastq.gz \
-		HawBaseGr_S59_L007_R1_001.pairclean.fastq.gz HawBaseGr_S59_L007_R1_001.unpairclean.fastq.gz  \
-		HawBaseGr_S59_L007_R2_001.pairclean.fastq.gz HawBaseGr_S59_L007_R2_001.unpairclean.fastq.gz \
+	HawBaseGr_S59_L007_R1_001.fastq.gz HawBaseGr_S59_L007_R2_001.fastq.gz \
+	HawBaseGr_S59_L007_R1_001.pairclean.fastq.gz HawBaseGr_S59_L007_R1_001.unpairclean.fastq.gz  \
+	HawBaseGr_S59_L007_R2_001.pairclean.fastq.gz HawBaseGr_S59_L007_R2_001.unpairclean.fastq.gz \
         ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
 
 #HawEarly 
 java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
-		HawEarlyGr_S1_L001_R1_001.fastq.gz HawEarlyGr_S1_L001_R2_001.fastq.gz \
-		HawEarlyGr_S1_L001_R1_001.pairclean.fastq.gz HawEarlyGr_S1_L001_R1_001.unpairclean.fastq.gz  \
-		HawEarlyGr_S1_L001_R2_001.pairclean.fastq.gz HawEarlyGr_S1_L001_R2_001.unpairclean.fastq.gz \
+	HawEarlyGr_S1_L001_R1_001.fastq.gz HawEarlyGr_S1_L001_R2_001.fastq.gz \
+	HawEarlyGr_S1_L001_R1_001.pairclean.fastq.gz HawEarlyGr_S1_L001_R1_001.unpairclean.fastq.gz  \
+	HawEarlyGr_S1_L001_R2_001.pairclean.fastq.gz HawEarlyGr_S1_L001_R2_001.unpairclean.fastq.gz \
         ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
 
 #HawLate
 java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
-		HawLateGr_S2_L001_R1_001.fastq.gz HawLateGr_S2_L001_R2_001.fastq.gz \
-		HawLateGr_S2_L001_R1_001.pairclean.fastq.gz HawLateGr_S2_L001_R1_001.unpairclean.fastq.gz  \
-		HawLateGr_S2_L001_R2_001.pairclean.fastq.gz HawLateGr_S2_L001_R2_001.unpairclean.fastq.gz \
+	HawLateGr_S2_L001_R1_001.fastq.gz HawLateGr_S2_L001_R2_001.fastq.gz \
+	HawLateGr_S2_L001_R1_001.pairclean.fastq.gz HawLateGr_S2_L001_R1_001.unpairclean.fastq.gz  \
+	HawLateGr_S2_L001_R2_001.pairclean.fastq.gz HawLateGr_S2_L001_R2_001.unpairclean.fastq.gz \
         ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
 
 #Align Using bwa 
