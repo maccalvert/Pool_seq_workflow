@@ -1,0 +1,231 @@
+# QC and clean up of Pool Seq Data 
+# Created 1/24/2018 
+#Mac Calvert with lots of help from Eddy Dowle
+#Analysis was performed on University of Colorado Boulder's Summit Research Computer 
+#QC using FASTQC 
+
+#Trimmomatic (0.36) used to clean cut bad reads, clean up low quality bases, and cut illumina adapters 
+#ILLUMINACLIP specifies which which adaptor sequence to cut (various files are provided with download 
+# of trimmomatic. 
+#LEADING will cut low quality bases below the number specific (phred scale)
+#TRAILING will do that same for trailing bases 
+#SLIDINGWINDOW will scan reads with n-base wide sliding window (first number) and cut when the average quality 
+#per window drops below n (second number). 
+#MINLEN drops reads less than the length provided. 
+
+#AppleBase
+java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
+        AppleBaseGr_S60_L007_R1_001.fastq.gz AppleBaseGr_S60_L007_R2_001.fastq.gz \
+        AppleBaseGr_S60_L007_R1_001.pairclean.fastq.gz AppleBaseGr_S60_L007_R1_001.unpairclean.fastq.gz  \
+        AppleBaseGr_S60_L007_R2_001.pairclean.fastq.gz AppleBaseGr_S60_L007_R2_001.unpairclean.fastq.gz \
+        ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
+
+#AppleEarly 
+java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
+		AppleEarlyGr_S61_L008_R1_001.fastq.gz AppleEarlyGr_S61_L008_R2_001.fastq.gz \
+		AppleEarlyGr_S61_L008_R1_001.pairclean.fastq.gz AppleEarlyGr_S61_L008_R1_001.unpairclean.fastq.gz  \
+        AppleEarlyGr_S61_L008_R2_001.pairclean.fastq.gz AppleEarlyGr_S61_L008_R2_001.unpairclean.fastq.gz \
+        ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
+        
+#AppleLate 
+java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
+		AppleLateGr_S62_L008_R1_001.fastq.gz AppleLateGr_S62_L008_R2_001.fastq.gz \
+		AppleLateGr_S62_L008_R1_001.pairclean.fastq.gz AppleLateGr_S62_L008_R1_001.unpairclean.fastq.gz  \
+        AppleLateGr_S62_L008_R2_001.pairclean.fastq.gz AppleLateGr_S62_L008_R2_001.unpairclean.fastq.gz \
+        ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
+
+#HawBase 
+java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
+		HawBaseGr_S59_L007_R1_001.fastq.gz HawBaseGr_S59_L007_R2_001.fastq.gz \
+		HawBaseGr_S59_L007_R1_001.pairclean.fastq.gz HawBaseGr_S59_L007_R1_001.unpairclean.fastq.gz  \
+		HawBaseGr_S59_L007_R2_001.pairclean.fastq.gz HawBaseGr_S59_L007_R2_001.unpairclean.fastq.gz \
+        ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
+
+#HawEarly 
+java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
+		HawEarlyGr_S1_L001_R1_001.fastq.gz HawEarlyGr_S1_L001_R2_001.fastq.gz \
+		HawEarlyGr_S1_L001_R1_001.pairclean.fastq.gz HawEarlyGr_S1_L001_R1_001.unpairclean.fastq.gz  \
+		HawEarlyGr_S1_L001_R2_001.pairclean.fastq.gz HawEarlyGr_S1_L001_R2_001.unpairclean.fastq.gz \
+        ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
+
+#HawLate
+java -jar /projects/mcca3226/Programs/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 10 -phred33 \
+		HawLateGr_S2_L001_R1_001.fastq.gz HawLateGr_S2_L001_R2_001.fastq.gz \
+		HawLateGr_S2_L001_R1_001.pairclean.fastq.gz HawLateGr_S2_L001_R1_001.unpairclean.fastq.gz  \
+		HawLateGr_S2_L001_R2_001.pairclean.fastq.gz HawLateGr_S2_L001_R2_001.unpairclean.fastq.gz \
+        ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:10 TRAILING:10 SLIDINGWINDOW:4:15 MINLEN:40
+
+#Align Using bwa 
+#First index the genome 
+#This should produce all the necessary index files (.amb. .ann, .bwt, .pac, and .sa)
+cd /scratch/summit/mcca3226/PoolSeq/renamed_Rzeph_genome 
+bwa index 28612_ref_Rhagoletis_zephyria_1.0_chrUn.renamed.fa
+
+#Align files to the indexed genome 
+#Apple base 
+cd /scratch/summit/mcca3226/PoolSeq/bwa 
+bwa mem -t 10 ../renamed_Rzeph_genome/28612_ref_Rhagoletis_zephyria_1.0_chrUn.renamed.fa \
+	../Grant/AppleBaseGr_S60_L007_R1_001.pairclean.fastq.gz \
+	../Grant/AppleBaseGr_S60_L007_R2_001.pairclean.fastq.gz \
+	> aln_pe_AppleBase.sam
+
+#Apple early
+bwa mem -t 10 ../renamed_Rzeph_genome/28612_ref_Rhagoletis_zephyria_1.0_chrUn.renamed.fa \
+	../Grant/AppleEarlyGr_S61_L008_R1_001.pairclean.fastq.gz \
+	../Grant/AppleEarlyGr_S61_L008_R2_001.pairclean.fastq.gz \
+	> aln_pe_AppleEarly.sam
+
+#Apple late 
+bwa mem -t 10 ../renamed_Rzeph_genome/28612_ref_Rhagoletis_zephyria_1.0_chrUn.renamed.fa \
+	../Grant/AppleLateGr_S62_L008_R1_001.pairclean.fastq.gz \
+	../Grant/AppleLateGr_S62_L008_R2_001.pairclean.fastq.gz \
+	> aln_pe_AppleLate.sam 
+	
+#Haw base 
+bwa mem -t 10 ../renamed_Rzeph_genome/28612_ref_Rhagoletis_zephyria_1.0_chrUn.renamed.fa \
+	../Grant/HawBaseGr_S59_L007_R1_001.pairclean.fastq.gz \
+	../Grant/HawBaseGr_S59_L007_R2_001.pairclean.fastq.gz \
+	> aln_pe_HawBase.sam
+
+#Haw early 
+bwa mem -t 10 ../renamed_Rzeph_genome/28612_ref_Rhagoletis_zephyria_1.0_chrUn.renamed.fa \
+	../Grant/HawEarlyGr_S1_L001_R1_001.pairclean.fastq.gz \
+	../Grant/HawEarlyGr_S1_L001_R2_001.pairclean.fastq.gz \
+	> aln_pe_HawEarly.sam 
+
+#Haw late 
+bwa mem -t 10 ../renamed_Rzeph_genome/28612_ref_Rhagoletis_zephyria_1.0_chrUn.renamed.fa \
+	../Grant/HawLateGr_S2_L001_R1_001.pairclean.fastq.gz \
+	../Grant/HawLateGr_S2_L001_R2_001.pairclean.fastq.gz \
+	> aln_pe_HawLate.sam 
+
+#Get some alignment statistics. 
+#Picard tools to get summary stats on the bwa alignment 
+#Apple base 
+java -jar /projects/mcca3226/Programs/picard.jar CollectAlignmentSummaryMetrics \
+        METRIC_ACCUMULATION_LEVEL=SAMPLE \
+          I=aln_pe_AppleBase.sam\
+          O=AppleBase_align_stats.txt
+
+#Apple early 
+java -jar /projects/mcca3226/Programs/picard.jar CollectAlignmentSummaryMetrics \
+        METRIC_ACCUMULATION_LEVEL=SAMPLE \
+          I=aln_pe_AppleEarly.sam\
+          O=AppleEarly_align_stats.txt
+
+#Apple late 
+java -jar /projects/mcca3226/Programs/picard.jar CollectAlignmentSummaryMetrics \
+		 METRIC_ACCUMULATION_LEVEL=SAMPLE \
+          I=aln_pe_AppleLate.sam \
+          O=AppleLate_align_stats.txt
+
+#Haw base 
+java -jar /projects/mcca3226/Programs/picard.jar CollectAlignmentSummaryMetrics \
+		 METRIC_ACCUMULATION_LEVEL=SAMPLE \
+          I=aln_pe_HawBase.sam \
+          O=HawBase_align_stats.txt
+
+#Haw early
+java -jar /projects/mcca3226/Programs/picard.jar CollectAlignmentSummaryMetrics \
+		 METRIC_ACCUMULATION_LEVEL=SAMPLE \
+		  I=aln_pe_HawEarly.sam \
+          O=HawEarly_align_stats.txt
+
+#Haw late 
+java -jar /projects/mcca3226/Programs/picard.jar CollectAlignmentSummaryMetrics \
+		 METRIC_ACCUMULATION_LEVEL=SAMPLE \
+		  I=aln_pe_HawLate.sam \
+		  O=HawLate_align_stats.txt 
+
+#Can also get alignment metrics using samtools flagstat. - This will tell you if there is secondary 
+#mapping 
+
+#Covert sam files to bam files to save space. 
+
+#Appl base 
+samtools view -bh aln_pe_AppleBase.sam > aln_pe_AppleBase.bam 
+
+#Apple early 
+samtools view -bh aln_pe_AppleEarly.sam > aln_pe_AppleEarly.bam
+
+#Apple late 
+samtools view -bh aln_pe_AppleLate.sam > aln_pe_AppleLate.bam
+
+#Haw base 
+samtools view -bh aln_pe_HawBase.sam > aln_pe_HawBase.bam
+
+#Haw early 
+samtools view -bh aln_pe_HawEarly.sam > aln_pe_HawEarly.bam 
+
+#Haw late 
+samtools view -bh aln_pe_HawLate.sam > aln_pe_HawLate.bam 
+
+#If there is secondary mapping (note: by default bwa does not output secondary mapped reads)
+#then it can be removed with samtools view -f/F command to filter out primary / suplementary reads.
+#Samtoools -F command "only include reads with none of flags in INT present"  Secondary mapping is when a read maps to other
+#locations in genome. Primary reads are those that have the best alignment (based on what?)
+#There was no secondary mapping in my bwa output (default) 
+
+#Remove PCR duplicates 
+
+java -jar /projects/mcca3226/Programs/picard.jar MarkDuplicates \
+                I= aln_pe_AppleBase.bam \
+                O= aln_pe_AppleBase.redup.bam \
+                M= aln_pe_AppleBase_redup_metrics.txt \
+                REMOVE_DUPLICATES= true \
+                TMP_DIR= ./temp_dir_AB 
+                
+java -jar /projects/mcca3226/Programs/picard.jar MarkDuplicates \
+                I= aln_pe_AppleEarly.bam \
+                O= aln_pe_AppleEarly.redup.bam \
+                M= aln_pe_AppleEarly_redup_metrics.txt \
+                REMOVE_DUPLICATES= true \
+                TMP_DIR= ./temp_dir_AE
+                
+java -jar /projects/mcca3226/Programs/picard.jar MarkDuplicates \
+                I= aln_pe_AppleLate.bam \
+                O= aln_pe_AppleLate.redup.bam \
+                M= aln_pe_AppleLate_redup_metrics.txt \
+                REMOVE_DUPLICATES= true \
+                TMP_DIR= ./temp_dir_AL
+
+java -jar /projects/mcca3226/Programs/picard.jar MarkDuplicates \
+                I= aln_pe_HawBase.bam \
+                O= aln_pe_HawBase.redup.bam \
+                M= aln_pe_HawBase_redup_metrics.txt \
+                REMOVE_DUPLICATES= true \
+                TMP_DIR= ./temp_dir
+
+java -jar /projects/mcca3226/Programs/picard.jar MarkDuplicates \
+                I= aln_pe_HawEarly.bam \
+                O= aln_pe_HawEarly.redup.bam \
+                M= aln_pe_HawBase_redup_metrics.txt \
+                REMOVE_DUPLICATES= true \
+                TMP_DIR= ./temp_dir_HE
+
+java -jar /projects/mcca3226/Programs/picard.jar MarkDuplicates \
+                I= aln_pe_HawLate.bam \
+                O= aln_pe_HawLate.redup.bam \
+                M= aln_pe_HawLate_redup_metrics.txt \
+                REMOVE_DUPLICATES= true \
+                TMP_DIR= ./temp_dir_HL
+
+#Sort and index using samtools for easy access. 
+
+samtools sort -T aln_pe_AppleBase.markdup. -o aln_pe_AppleBase.redup.sorted.bam aln_pe_AppleBase.redup.bam
+samtools index aln_pe_AppleBase.redup.sorted.bam
+
+samtools sort -T aln_pe_AppleEarly.redup -o aln_pe_AppleEarly.redup.sorted.bam aln_pe_AppleEarly.redup.bam 
+samtools index aln_pe_AppleEarly.redup.sorted.bam
+
+samtools sort -T aln_pe_AppleLate.redup -o aln_pe_AppleLate.redup.sorted.bam aln_pe_AppleLate.redup.bam
+samtools index aln_pe_AppleLate.redup.sorted.bam
+
+samtools sort -T aln_pe_HawBase.redup -o aln_pe_HawBase.redup.sorted.bam aln_pe_HawBase.redup.bam
+samtools index aln_pe_HawBase.redup.sorted.bam
+
+samtools sort -T aln_pe_HawEarly.redup -o aln_pe_HawEarly.redup.sorted.bam aln_pe_HawEarly.redup.bam
+samtools index aln_pe_HawEarly.redup.sorted.bam
+
+samtools sort -T aln_pe_HawLate.redup -o aln_pe_HawLate.redup.sorted.bam aln_pe_HawLate.redup.bam
+samtools index aln_pe_HawLate.redup.sorted.bam
